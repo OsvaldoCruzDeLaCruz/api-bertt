@@ -29,8 +29,8 @@ class BERTSentimentClassifier(nn.Module):
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 model = BERTSentimentClassifier(2)
-model.load_state_dict(torch.load('./models/mod_torch.pth'), map_location=torch.device('cpu'))
-model.to(device)
+model.load_state_dict(torch.load('./models/mod_torch_cpu.pth'))
+
 
 # model = torch.load('./models/mod_torch.pth', map_location=torch.device('cpu'))
 
@@ -41,9 +41,11 @@ def read_root():
 
 @app.post('/deprict')
 def classifySentiment(review_text):
-    
+    print("--------------------")
+    print("Texto" + str(review_text))
+    print("--------------------")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    # device = torch.device("cpu")
+    device = torch.device("cpu")
     tokenizer = BertTokenizer.from_pretrained(PRE_TRAINED_MODEL_NAME, return_dict=False)
 
     encoding_review = tokenizer.encode_plus(
