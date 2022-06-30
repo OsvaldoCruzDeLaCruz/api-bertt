@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'bert-awnmpdd'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1D35A25C28DF410DA473B3A79232A899 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9E94B03BCC6C467594675FFC5C3C8975 }}
