@@ -1,9 +1,16 @@
+from dataclasses import replace
 from fastapi import FastAPI
 import joblib
 import torch
 from transformers import BertModel, BertTokenizer, AdamW, get_linear_schedule_with_warmup
 from textwrap import wrap
 from torch import nn
+import uvicorn
+
+
+def remplace(text:str):
+    return text.replace("%", " ")
+
 
 app = FastAPI()
 
@@ -37,12 +44,13 @@ model.load_state_dict(torch.load('./models/mod_torch_cpu.pth'))
 
 @app.get('/')
 def read_root():
-    return {"welcome": "Welcom to my api"}
+    return {"welcome": "Welcome to my api"}
 
-@app.post('/deprict')
-def classifySentiment(review_text):
+@app.post('/predict/{review_text}')
+def classifySentiment(review_text: str):
+    review_text = remplace(review_text)
     print("--------------------")
-    print("Texto" + str(review_text))
+    print("Texto " + str(review_text))
     print("--------------------")
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     device = torch.device("cpu")
@@ -65,7 +73,10 @@ def classifySentiment(review_text):
     _, prediction = torch.max(output, dim=1)
     print("\n".join(wrap(review_text)))
     if prediction:
-        return {'Senimiento': 'Bueno'}
+        return {'Sentimiento': 'Bueno'}
     else:
-        return {'Senimiento': 'Malo'}
+        return {'Sentimiento': 'Malo'}
+
+
+
 
