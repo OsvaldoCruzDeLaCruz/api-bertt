@@ -58,7 +58,7 @@ def classifySentiment(review_text: str):
 
     encoding_review = tokenizer.encode_plus(
     review_text,
-    max_length = 100,
+    max_length = 200,
     truncation = True,
     add_special_tokens = True,
     return_token_type_ids = False,
